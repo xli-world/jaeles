@@ -4,6 +4,7 @@ import (
 	"crypto/tls"
 	"errors"
 	"fmt"
+	"github.com/jaeles-project/jaeles/global"
 	"github.com/jaeles-project/jaeles/utils"
 	"io/ioutil"
 	"math/rand"
@@ -203,6 +204,8 @@ func JustSend(options libs.Options, req libs.Request) (res libs.Response, err er
 			Delete(url)
 		break
 	}
+
+	global.Statistics(options.ScanID, float64(resp.Time())/float64(time.Second), resp.StatusCode(), err)
 
 	// in case we want to get redirect stuff
 	if res.StatusCode != 0 {

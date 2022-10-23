@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/panjf2000/ants"
+	"github.com/panjf2000/ants/v2"
 	"os"
 	"path"
 	"path/filepath"

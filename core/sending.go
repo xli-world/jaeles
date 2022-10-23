@@ -5,7 +5,7 @@ import (
 	"github.com/jaeles-project/jaeles/libs"
 	"github.com/jaeles-project/jaeles/sender"
 	"github.com/jaeles-project/jaeles/utils"
-	"github.com/panjf2000/ants"
+	"github.com/panjf2000/ants/v2"
 	"github.com/thoas/go-funk"
 	"strings"
 	"sync"

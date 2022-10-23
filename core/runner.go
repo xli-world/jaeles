@@ -127,6 +127,7 @@ func (r *Runner) GetRequests() {
 			// assign origins here
 			rec.OriginReq = r.Origin.Request
 			rec.OriginRes = r.Origin.Response
+			rec.ScanID = r.Opt.ScanID
 
 			r.Records = append(r.Records, rec)
 		}

@@ -26,7 +26,7 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/onsi/ginkgo v1.16.4 // indirect
 	github.com/onsi/gomega v1.13.0 // indirect
-	github.com/panjf2000/ants v1.3.0
+	github.com/panjf2000/ants/v2 v2.5.0
 	github.com/robertkrimen/otto v0.0.0-20210614181706-373ff5438452
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/cast v1.3.1

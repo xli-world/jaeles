@@ -3,6 +3,7 @@ package sender
 import (
 	"context"
 	"fmt"
+	"github.com/jaeles-project/jaeles/global"
 	"github.com/jaeles-project/jaeles/utils"
 	"log"
 	"time"
@@ -97,6 +98,7 @@ func SendWithChrome(options libs.Options, req libs.Request) (libs.Response, erro
 		}),
 	)
 	res.ResponseTime = time.Since(timeStart).Seconds()
+	global.Statistics(options.ScanID, res.ResponseTime, res.StatusCode, err)
 	if err != nil {
 		utils.ErrorF("%v", err)
 		return res, err

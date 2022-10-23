@@ -6,7 +6,7 @@ import (
 	"github.com/jaeles-project/jaeles/core"
 	"github.com/jaeles-project/jaeles/libs"
 	"github.com/jaeles-project/jaeles/utils"
-	"github.com/panjf2000/ants"
+	"github.com/panjf2000/ants/v2"
 	"github.com/spf13/cobra"
 	"os"
 	"os/exec"
@@ -147,6 +147,18 @@ func runScan(cmd *cobra.Command, _ []string) error {
 }
 
 func CreateRunner(j interface{}) {
+	CreateRunnerWithOption(j, options)
+}
+
+func CreateRunnerWithOOption(j interface{}, o ...libs.OOption) {
+	var currentOptions = libs.CopyOptions(options)
+	for _, opt := range o {
+		opt(&currentOptions)
+	}
+	CreateRunnerWithOption(j, currentOptions)
+}
+
+func CreateRunnerWithOption(j interface{}, options libs.Options) {
 	var jobs []libs.Job
 	rawJob := j.(libs.Job)
 

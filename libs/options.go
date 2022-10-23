@@ -72,6 +72,26 @@ type Options struct {
 	Config Config
 }
 
+func CopyOptions(options Options) Options {
+	var newOptions Options
+	newOptions = options
+	return newOptions
+}
+
+type OOption func(*Options)
+
+func WithScanId(scanId string) OOption {
+	return func(o *Options) {
+		o.ScanID = scanId
+	}
+}
+
+func WithEnableFiltering() OOption {
+	return func(o *Options) {
+		o.EnableFiltering = true
+	}
+}
+
 // Scan options for api server
 type Scan struct {
 	RawRequest      string
@@ -147,4 +167,23 @@ type VulnData struct {
 	ContentLength string
 	OutputFile    string
 	SignatureFile string
+}
+
+type Vuln struct {
+	ScanId string
+	SignId string
+
+	ReqUrl        string
+	ReqMethod     string
+	ReqRaw        string
+	StatusCode    int
+	ContentLength int
+	RespTime      float64
+	RespRaw       string
+
+	Risk            string
+	DetectionString string
+	DetectResult    string
+	ExtraOutput     string
+	Confidence      string
 }

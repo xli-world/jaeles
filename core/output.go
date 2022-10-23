@@ -1,8 +1,10 @@
 package core
 
 import (
+	"encoding/base64"
 	"fmt"
 	"github.com/fatih/color"
+	"github.com/jaeles-project/jaeles/global"
 	"github.com/jaeles-project/jaeles/libs"
 	"github.com/jaeles-project/jaeles/utils"
 	jsoniter "github.com/json-iterator/go"
@@ -37,6 +39,26 @@ func (r *Record) Output() string {
 		//	database.ImportRecord(*r)
 		//}
 	}
+
+	ReqRaw := base64.StdEncoding.EncodeToString([]byte(r.Request.Beautify))
+	ResRaw := base64.StdEncoding.EncodeToString([]byte(r.Response.Beautify))
+	extraOutput := base64.StdEncoding.EncodeToString([]byte(r.ExtraOutput))
+	global.AddVuln(libs.Vuln{
+		ScanId:          r.ScanID,
+		SignId:          r.Sign.ID,
+		ReqUrl:          r.Request.URL,
+		ReqMethod:       r.Request.Method,
+		ReqRaw:          ReqRaw,
+		StatusCode:      r.Response.StatusCode,
+		ContentLength:   r.Response.Length,
+		RespTime:        r.Response.ResponseTime,
+		RespRaw:         ResRaw,
+		Risk:            r.Sign.Info.Risk,
+		DetectionString: r.DetectString,
+		DetectResult:    r.DetectString,
+		ExtraOutput:     extraOutput,
+		Confidence:      r.Sign.Info.Confidence,
+	})
 
 	vulnInfo := fmt.Sprintf("[%v][%v] %v", r.Sign.ID, r.Sign.Info.Risk, r.Request.URL)
 	if r.Opt.Quiet {
