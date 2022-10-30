@@ -15,25 +15,18 @@ type ScanStatistics struct {
 }
 
 var ScanStatisticsMap = make(map[string]*ScanStatistics)
-var lock sync.RWMutex
+var lock sync.Mutex
 
 func Statistics(scanId string, respTime float64, statusCode int, err error) {
-	lock.RLock()
+	lock.Lock()
+	defer lock.Unlock()
 	statistics, ok := ScanStatisticsMap[scanId]
 	if !ok {
-		lock.RUnlock()
-		lock.Lock()
-		defer lock.Unlock()
-
-		if _, ok := ScanStatisticsMap[scanId]; !ok {
-			statistics = &ScanStatistics{
-				ScanId:      scanId,
-				StatusCodes: make(map[int]int),
-			}
-			ScanStatisticsMap[scanId] = statistics
+		statistics = &ScanStatistics{
+			ScanId:      scanId,
+			StatusCodes: make(map[int]int),
 		}
-	} else {
-		lock.RUnlock()
+		ScanStatisticsMap[scanId] = statistics
 	}
 
 	statistics.RequestsCount++
@@ -45,8 +38,8 @@ func Statistics(scanId string, respTime float64, statusCode int, err error) {
 }
 
 func GetStatistics(scanId string) *ScanStatistics {
-	lock.RLock()
-	defer lock.RUnlock()
+	lock.Lock()
+	defer lock.Unlock()
 	return ScanStatisticsMap[scanId]
 }
 
@@ -58,8 +51,8 @@ func ClearStatistics(scanId string) {
 }
 
 func AddVuln(v libs.Vuln) {
-	lock.RLock()
-	defer lock.RUnlock()
+	lock.Lock()
+	defer lock.Unlock()
 
 	statistics, ok := ScanStatisticsMap[v.ScanId]
 	if !ok {
